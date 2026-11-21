@@ -10,7 +10,7 @@ Agreed with Rugimbana on 2026-11-21. Tick items as they are done; `PROGRESS.md` 
 - [x] Back-end core copied from WardWise, tests green
 - [x] Front-end shell: teal and coral theme, pages with sample data
 - [x] Draft output spec (`docs/output-spec.md`) for Rugimbana to approve
-- [ ] Git repo, public GitHub repo, listed in `_hub/projects.txt`
+- [x] Git repo, public GitHub repo (github.com/aimepaccy/simwise), listed in `_hub/projects.txt`
 
 ## Phase 1: back end and database (walkthrough)
 - [ ] Database as a setting (SQLite locally, Postgres hosted), ORM models: debrief session, document, draft, published output, share link
