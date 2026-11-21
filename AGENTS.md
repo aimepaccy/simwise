@@ -47,4 +47,5 @@ docs/       plan.md, output-spec.md, glossary.md
 
 ## Environment
 - Node 24 for the front end. Python 3.13 in `backend/.venv`.
-- Run: `cd backend; .venv/Scripts/python -m uvicorn app.main:app --reload` and `cd frontend; npm run dev`.
+- Run: `cd backend; .venv/Scripts/alembic upgrade head; .venv/Scripts/python -m uvicorn app.main:app --reload` and `cd frontend; npm run dev`.
+- Database: SQLAlchemy models in `backend/app/models.py`; every change to them needs a migration (`.venv/Scripts/alembic revision --autogenerate -m "what changed"`, then read the generated file before `alembic upgrade head`). A test fails if a migration is missing. Invented sample data: `.venv/Scripts/python -m app.seed`.

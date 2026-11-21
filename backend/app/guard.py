@@ -120,7 +120,7 @@ class Guard:
 
         if scope['method'] == 'POST' and path in JOB_PATHS:
             if self.max_active_jobs and jobs.active() >= self.max_active_jobs:
-                return _too_many("SimWise is busy with other students' work. Please try again in a minute.", 60)
+                return _too_many('SimWise is busy with other debriefs. Please try again in a minute.', 60)
             return self._count(self.jobs, address, 'You have reached the limit for this hour.')
         if path == READING_PATH:
             return self._count(self.reading, address, 'You have looked up a lot of reading this hour.')
@@ -135,7 +135,7 @@ class Guard:
 
 
 def client_address(scope: Scope) -> str:
-    # Behind a hosting provider's proxy this is the proxy's address, not the student's; the server must then be
+    # Behind a hosting provider's proxy this is the proxy's address, not the user's; the server must then be
     # started so it reads the real one from the proxy's headers, trusting only the host's own hop (build item 7b).
     client = scope.get('client')
     return client[0] if client else 'unknown'

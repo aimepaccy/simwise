@@ -123,7 +123,7 @@ def _read_photos(photos: list[PhotoInput], warnings: list[str], on_step: Callabl
     for number, photo in enumerate(photos, start=1):
         # The free tier lets about one photo through every 20 seconds, so five take over a minute: show progress.
         if len(photos) > 1:
-            on_step(f'Reading your handwritten notes (photo {number} of {len(photos)})')
+            on_step(f'Reading the sim cards and slides (photo {number} of {len(photos)})')
         try:
             jpeg = extract.photo_for_reading(photo.path)
         except extract.UnreadableFile:
@@ -133,7 +133,7 @@ def _read_photos(photos: list[PhotoInput], warnings: list[str], on_step: Callabl
         try:
             text = providers.read_handwriting(jpeg)
         except providers.PhotoCutShort:
-            warnings.append(f'{photo.name} has too much writing to read at once. Try half a page per photo.')
+            warnings.append(f'{photo.name} has too much text to read at once. Try photographing half the page at a time.')
             continue
         except providers.UnreadablePhoto:
             warnings.append(f'SimWise could not read {photo.name}. Try a clearer photo.')
@@ -141,7 +141,7 @@ def _read_photos(photos: list[PhotoInput], warnings: list[str], on_step: Callabl
         if text:
             pages.append(text)
         else:
-            warnings.append(f'SimWise found no handwriting in {photo.name}.')
+            warnings.append(f'SimWise found no text in {photo.name}.')
     return '\n\n'.join(pages) if pages else None
 
 
@@ -151,7 +151,7 @@ def run(job_id: str, work: JobInput) -> None:
         warnings: list[str] = []
         notes = None
         if work.photos:
-            _update(job_id, status='working', step='Reading your handwritten notes')
+            _update(job_id, status='working', step='Reading the sim cards and slides')
             notes = _read_photos(work.photos, warnings, on_step=lambda step: _update(job_id, step=step))
 
         transcript = None
@@ -173,7 +173,7 @@ def run(job_id: str, work: JobInput) -> None:
         materials = Materials(transcript=transcript, notes=notes, warnings=warnings, removed=deidentify.summary(removed))
         _update(job_id, status='done', step='Done', materials=materials)
     except Exception as error:
-        _fail(job_id, error, 'Something went wrong while reading your material.')
+        _fail(job_id, error, 'Something went wrong while reading the session material.')
     finally:
         shutil.rmtree(work.folder, ignore_errors=True)
         log.info('Job %s finished in %.1f s', job_id, time.monotonic() - started)

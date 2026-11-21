@@ -12,3 +12,7 @@
 - **Motion values and springs.** The tilting cards track the pointer as numbers that change many times a second without re-drawing React components; a spring smooths them so the card eases instead of snapping.
 - **Accessibility with effects.** `prefers-reduced-motion` is a device setting; every effect checks it. Scrambled text hides from screen readers and gives them the real word instead.
 - To explain later: why a share link is a "token", and why the student page lives outside the sim team's layout.
+
+## 2026-11-21: phase 1 built on auto (walkthrough pending)
+- The database layer exists: three tables, a first migration, and a CRUD API. The concepts are listed in `docs/glossary.md` (Phase 1) and will be walked through together, following one request from `/docs` to a row in `simwise.db`.
+- A design idea worth being able to defend: the teaching is **versioned**, never overwritten, so anyone can see what the AI wrote and what a person changed. That is an audit trail, the same instinct as not erasing entries in a clinical record.

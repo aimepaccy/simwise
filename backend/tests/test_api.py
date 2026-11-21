@@ -109,7 +109,7 @@ def test_photo_without_handwriting_gets_a_warning(monkeypatch):
     monkeypatch.setattr(providers, 'read_handwriting', lambda jpeg: '')
     state = finished_job(post(photos=[('blank.jpg', photo())]))
     assert state['materials']['notes'] is None
-    assert state['materials']['warnings'] == ['SimWise found no handwriting in blank.jpg.']
+    assert state['materials']['warnings'] == ['SimWise found no text in blank.jpg.']
 
 
 def test_a_turned_down_photo_does_not_stop_the_others(monkeypatch):
@@ -145,7 +145,7 @@ def test_a_page_cut_short_gets_its_own_warning(monkeypatch):
     state = finished_job(post(photos=[('dense.jpg', photo())]))
     assert state['status'] == 'done'
     assert state['materials']['warnings'] == [
-        'dense.jpg has too much writing to read at once. Try half a page per photo.'
+        'dense.jpg has too much text to read at once. Try photographing half the page at a time.'
     ]
 
 
@@ -283,7 +283,7 @@ def test_unexpected_errors_get_a_plain_message(monkeypatch):
         raise RuntimeError('internal detail that must not reach the student')
 
     monkeypatch.setattr(providers, 'transcribe', crashing)
-    assert finished_job(post(audio=('rec.webm', WEBM)))['error'] == 'Something went wrong while reading your material.'
+    assert finished_job(post(audio=('rec.webm', WEBM)))['error'] == 'Something went wrong while reading the session material.'
 
 
 def test_finished_results_are_forgotten_once_collected():

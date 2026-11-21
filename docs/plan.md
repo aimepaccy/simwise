@@ -12,10 +12,11 @@ Agreed with Rugimbana on 2026-11-21. Tick items as they are done; `PROGRESS.md` 
 - [x] Draft output spec (`docs/output-spec.md`) for Rugimbana to approve
 - [x] Git repo, public GitHub repo (github.com/aimepaccy/simwise), listed in `_hub/projects.txt`
 
-## Phase 1: back end and database (walkthrough)
-- [ ] Database as a setting (SQLite locally, Postgres hosted), ORM models: debrief session, document, draft, published output, share link
-- [ ] Migrations
-- [ ] Sessions API (create, list, read, update)
+## Phase 1: back end and database (walkthrough) - built 2026-11-21, walkthrough pending
+- [x] Database as a setting (SQLite locally, Postgres hosted), ORM models: debrief, document, teaching output (versioned); share links move to phase 4
+- [x] Migrations
+- [x] Debriefs API (create, list, read, update, delete, save an edit as a new version)
+- [ ] Walkthrough with Rugimbana
 - Concepts: database, table, row, primary key, foreign key, ORM, migration
 
 ## Phase 2: inputs (walkthrough)

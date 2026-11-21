@@ -198,10 +198,10 @@ def test_too_much_work_in_progress_is_turned_away_as_busy(monkeypatch):
     monkeypatch.setattr(jobs, 'active', lambda: 2)
     busy = client.post('/api/sessions')
     assert busy.status_code == 429
-    assert busy.json() == {'detail': "SimWise is busy with other students' work. Please try again in a minute."}
+    assert busy.json() == {'detail': 'SimWise is busy with other debriefs. Please try again in a minute.'}
     # Reading needs no AI writing, so it is not held up.
     assert client.get('/api/reading').status_code == 200
-    # A busy refusal does not use up the student's hourly count.
+    # A busy refusal does not use up the sim team's hourly count.
     monkeypatch.setattr(jobs, 'active', lambda: 1)
     assert client.post('/api/sessions').status_code == 200
 
@@ -294,7 +294,7 @@ def test_each_photo_is_shown_as_it_is_read(fake_read_handwriting):
         path.write_bytes(photo())
         inputs.append(jobs.PhotoInput(path=path, name=path.name))
     jobs._read_photos(inputs, [], on_step=steps.append)
-    assert steps == [f'Reading your handwritten notes (photo {n} of 3)' for n in (1, 2, 3)]
+    assert steps == [f'Reading the sim cards and slides (photo {n} of 3)' for n in (1, 2, 3)]
 
 
 def test_audio_alone_still_works_through_the_real_app():

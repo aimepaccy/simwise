@@ -1,14 +1,19 @@
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import SecretStr
+from pydantic import SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 ENV_FILE = Path(__file__).resolve().parent.parent / '.env'
+DEFAULT_DATABASE = f'sqlite:///{(ENV_FILE.parent / "simwise.db").as_posix()}'
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=ENV_FILE, extra='ignore')
+
+    # Where debriefs are stored. A file next to the code during development; a hosted Postgres address
+    # (postgresql+psycopg://...) when deployed. The code is the same for both.
+    database_url: str = DEFAULT_DATABASE
 
     # Comma-separated list of front-end addresses allowed to call this API.
     allowed_origins: str = 'http://localhost:5173'
@@ -48,6 +53,12 @@ class Settings(BaseSettings):
     reading_per_hour: int = 120
     # The most jobs in progress at once, across everyone; more are turned away as busy. 0 means no limit.
     max_active_jobs: int = 4
+
+    @field_validator('database_url')
+    @classmethod
+    def _empty_means_default(cls, value: str) -> str:
+        # .env.example ships DATABASE_URL= with nothing after it; that should mean the local file, not a crash.
+        return value.strip() or DEFAULT_DATABASE
 
     @property
     def transcription_provider(self) -> tuple[str, str]:

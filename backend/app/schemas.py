@@ -88,3 +88,89 @@ class Limits(BaseModel):
     max_photo_mb: int
     # Whether this server asks for an access code (a hosted copy does), so the page can ask for it first.
     access_required: bool
+
+
+# Debriefs (phase 1). The API speaks camelCase JSON, like the front end's types; Python keeps snake_case.
+
+from datetime import date, datetime  # noqa: E402
+
+from pydantic import Field  # noqa: E402
+from pydantic.alias_generators import to_camel  # noqa: E402
+
+
+class Camel(BaseModel):
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, extra='forbid')
+
+
+SourceKind = Literal['debrief', 'slides', 'sim card', 'document']
+
+
+class Point(Camel):
+    text: str = Field(min_length=1, max_length=1000)
+    quote: str = Field(min_length=1, max_length=1000)
+    source: SourceKind
+
+
+class TeachingContent(Camel):
+    overview: str = Field(min_length=1, max_length=3000)
+    objectives: list[str] = Field(max_length=10)
+    went_well: list[Point] = Field(max_length=10)
+    improve: list[Point] = Field(max_length=10)
+    teaching_points: list[Point] = Field(max_length=12)
+    search_terms: list[str] = Field(default=[], max_length=8)
+
+
+class DebriefCreate(Camel):
+    title: str = Field(min_length=1, max_length=200)
+    scenario: str = Field(default='', max_length=2000)
+    cohort: str = Field(default='', max_length=100)
+    held_on: date | None = None
+    duration_min: int | None = Field(default=None, ge=0, le=600)
+    participants: int = Field(default=0, ge=0, le=50)
+
+
+class DebriefUpdate(Camel):
+    """Every field optional: only the ones sent are changed. Status is not here; SimWise sets it."""
+
+    title: str | None = Field(default=None, min_length=1, max_length=200)
+    scenario: str | None = Field(default=None, max_length=2000)
+    cohort: str | None = Field(default=None, max_length=100)
+    held_on: date | None = None
+    duration_min: int | None = Field(default=None, ge=0, le=600)
+    participants: int | None = Field(default=None, ge=0, le=50)
+
+
+class DocumentOut(Camel):
+    id: str
+    name: str
+    kind: Literal['pptx', 'pdf', 'docx', 'photo']
+    characters: int
+    created_at: datetime
+
+
+class OutputOut(Camel):
+    version: int
+    author: Literal['ai', 'facilitator']
+    created_at: datetime
+    content: TeachingContent
+
+
+class DebriefSummary(Camel):
+    id: str
+    title: str
+    cohort: str
+    held_on: date | None
+    duration_min: int | None
+    participants: int
+    status: Literal['new', 'processing', 'draft', 'published']
+    themes: list[str]
+    document_count: int
+    created_at: datetime
+
+
+class DebriefDetail(DebriefSummary):
+    scenario: str
+    has_transcript: bool
+    documents: list[DocumentOut]
+    output: OutputOut | None
+    versions: int

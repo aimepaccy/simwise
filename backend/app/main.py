@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import jobs
 from app.config import get_settings
+from app.debriefs import router as debriefs_router
 from app.guard import Guard
 from app.limits import BodySizeLimit
 from app.reading import web, youtube
@@ -37,6 +38,7 @@ protected = bool(settings.access_code.get_secret_value())
 docs = {'docs_url': None, 'redoc_url': None, 'openapi_url': None} if protected else {}
 app = FastAPI(title='SimWise API', version='0.1.0', lifespan=lifespan, **docs)
 app.include_router(router)
+app.include_router(debriefs_router)
 
 if not protected and not all(origin.startswith('http://localhost') for origin in settings.origins):
     logging.getLogger('simwise').warning('ACCESS_CODE is empty, but the API allows a hosted page: anyone can use it.')
@@ -57,7 +59,7 @@ app.add_middleware(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.origins,
-    allow_methods=['GET', 'POST'],
+    allow_methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allow_headers=['Content-Type', 'X-Access-Code'],
     # So the browser lets the page read how long to wait after a 429.
     expose_headers=['Retry-After'],

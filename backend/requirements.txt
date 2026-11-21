@@ -5,3 +5,5 @@ pydantic-settings
 openai
 httpx2
 pillow
+sqlalchemy
+alembic

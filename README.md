@@ -28,9 +28,11 @@ cd backend
 python -m venv .venv
 .venv/Scripts/pip install -r requirements-dev.txt   # macOS/Linux: .venv/bin/pip
 cp .env.example .env                                # then add an API key
+.venv/Scripts/alembic upgrade head                  # create or update the database
+.venv/Scripts/python -m app.seed                    # optional: invented sample debriefs
 .venv/Scripts/python -m uvicorn app.main:app --reload
 .venv/Scripts/python -m pytest
 ```
 
 ## Stack
-React (Vite, TypeScript), Tailwind CSS, Motion · Python, FastAPI · Groq (Whisper and an open-weight LLM) behind an OpenAI-compatible provider layer.
+React (Vite, TypeScript), Tailwind CSS, Motion · Python, FastAPI, SQLAlchemy and Alembic (SQLite locally, Postgres hosted) · Groq (Whisper and an open-weight LLM) behind an OpenAI-compatible provider layer.

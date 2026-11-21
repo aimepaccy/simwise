@@ -115,6 +115,29 @@ def test_roles_and_relatives_are_not_names():
     assert cleaned == 'Ward round today. [name] brought [name]. [name] saw her.'
 
 
+def test_team_roles_stay_but_the_people_in_them_go():
+    text = 'The team leader, Keza, asked the runner for adrenaline. Airway was managed by Uwase. The Scribe called time.'
+    items = [name('team leader'), name('Keza'), name('runner'), name('Airway'), name('Uwase'), name('Scribe')]
+    cleaned, removed = replace(text, items)
+    assert cleaned == (
+        'The team leader, [name], asked the runner for adrenaline. Airway was managed by [name]. The Scribe called time.'
+    )
+    assert removed == {'name': 2}
+
+
+def test_a_role_before_a_name_is_not_taken_for_part_of_the_name():
+    text = 'Team Leader Keza called for help. Later Keza asked the Team to pause.'
+    cleaned, _ = replace(text, [name('Team Leader Keza')])
+    assert cleaned == '[name] called for help. Later [name] asked the Team to pause.'
+
+
+def test_the_check_is_told_about_sim_roles_and_to_list_a_name_when_unsure():
+    prompt = deidentify.INSTRUCTIONS
+    assert all(role in prompt for role in ('team leader', 'airway', 'scribe', 'runner', 'confederate', 'facilitator'))
+    assert "the fictional patient's name" in prompt
+    assert 'If you are not sure whether a name belongs to the scenario or to a real person, list it.' in prompt
+
+
 def test_spaced_rwandan_phone_numbers_go():
     cleaned, removed = replace('Call 0788 123 456 or +250 788 123 456. Give 250 mg.', [])
     assert cleaned == 'Call [number] or [number]. Give 250 mg.'
