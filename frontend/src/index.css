@@ -38,6 +38,11 @@
   --input: oklch(0.89 0.015 210);
   --ring: oklch(0.56 0.105 192);
   --shadow-color: oklch(0.4 0.06 210 / 0.1);
+  /* The header band keeps light text in both themes. */
+  --hero-from: var(--primary);
+  --hero-to: var(--primary-deep);
+  --hero-foreground: var(--primary-foreground);
+  --hero-accent: var(--coral-soft);
 }
 
 .dark {
@@ -68,6 +73,10 @@
   --input: oklch(0.95 0.01 200 / 0.15);
   --ring: oklch(0.74 0.11 188);
   --shadow-color: oklch(0 0 0 / 0.35);
+  --hero-from: oklch(0.5 0.095 192);
+  --hero-to: oklch(0.3 0.055 208);
+  --hero-foreground: oklch(0.97 0.01 190);
+  --hero-accent: oklch(0.86 0.08 45);
 }
 
 /* Hands the tokens to Tailwind, so `bg-card` or `text-coral` work. */
@@ -104,6 +113,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-hero-accent: var(--hero-accent);
 }
 
 @layer base {
@@ -138,7 +149,7 @@
 @utility hero-band {
   background:
     radial-gradient(60rem 20rem at 85% -40%, color-mix(in oklch, var(--coral) 45%, transparent), transparent 60%),
-    linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
+    linear-gradient(135deg, var(--hero-from) 0%, var(--hero-to) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {

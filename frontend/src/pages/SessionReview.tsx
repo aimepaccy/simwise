@@ -9,7 +9,7 @@ import { TeachingView } from '@/components/TeachingView'
 import { Button } from '@/components/ui/button'
 import { Reveal } from '@/components/fx/Reveal'
 import { NotFound } from '@/pages/NotFound'
-import { formatDate } from '@/pages/Dashboard'
+import { formatDate } from '@/lib/utils'
 
 const docIcon: Record<DocumentItem['kind'], typeof FileText> = { pptx: Presentation, pdf: FileText, docx: FileText, photo: Image }
 

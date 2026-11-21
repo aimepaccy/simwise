@@ -6,7 +6,7 @@ import { Logo, ThemeToggle } from '@/components/AppShell'
 import { Reveal, ScrollProgress } from '@/components/fx/Reveal'
 import { ScrambleText } from '@/components/fx/ScrambleText'
 import { Surface } from '@/components/fx/Surface'
-import { formatDate } from '@/pages/Dashboard'
+import { formatDate } from '@/lib/utils'
 
 // The page students open from the share link. No login, no sim team controls, read only.
 export function SharedOutput() {
@@ -29,10 +29,10 @@ export function SharedOutput() {
   return (
     <div className="min-h-dvh">
       <ScrollProgress />
-      <header className="hero-band text-primary-foreground">
+      <header className="hero-band text-hero-foreground">
         <div className="mx-auto flex max-w-4xl items-center px-4 pt-5">
           <Logo />
-          <div className="ml-auto [&_button]:text-primary-foreground [&_button:hover]:bg-white/10">
+          <div className="ml-auto [&_button]:text-hero-foreground [&_button:hover]:bg-white/10">
             <ThemeToggle />
           </div>
         </div>

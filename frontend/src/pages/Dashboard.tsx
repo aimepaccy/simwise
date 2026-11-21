@@ -9,7 +9,7 @@ import { StatusBadge } from '@/components/StatusBadge'
 import { ScrambleText } from '@/components/fx/ScrambleText'
 import { Surface } from '@/components/fx/Surface'
 import { CountUp, Reveal } from '@/components/fx/Reveal'
-import { cn } from '@/lib/utils'
+import { cn, formatDate } from '@/lib/utils'
 
 const filters: { value: SessionStatus | 'all'; label: string }[] = [
   { value: 'all', label: 'All' },
@@ -17,10 +17,6 @@ const filters: { value: SessionStatus | 'all'; label: string }[] = [
   { value: 'draft', label: 'Drafts' },
   { value: 'published', label: 'Published' },
 ]
-
-export function formatDate(iso: string) {
-  return new Date(`${iso}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
-}
 
 export function Dashboard() {
   const [filter, setFilter] = useState<SessionStatus | 'all'>('all')
@@ -106,11 +102,11 @@ function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 0.2])
 
   return (
-    <section ref={ref} className="hero-band relative overflow-hidden text-primary-foreground">
+    <section ref={ref} className="hero-band relative overflow-hidden text-hero-foreground">
       <motion.div style={{ y, opacity }} className="mx-auto max-w-6xl px-4 pt-12 pb-20 sm:pt-16 sm:pb-24">
         <p className="text-sm font-medium tracking-wide uppercase opacity-80">Sim team</p>
         <h1 className="mt-2 max-w-2xl text-3xl leading-tight font-extrabold sm:text-5xl">
-          From debrief to <ScrambleText text="teaching" className="text-coral-soft" />, for the whole cohort.
+          From debrief to <ScrambleText text="teaching" className="text-hero-accent" />, for the whole cohort.
         </h1>
         <p className="mt-4 max-w-xl text-base opacity-90 sm:text-lg">
           Record the debrief, add the slides and sim cards. SimWise drafts the teaching; you check it and share one link.

@@ -1,7 +1,9 @@
+import { Suspense } from 'react'
 import { Link, NavLink, Outlet } from 'react-router'
 import { Moon, Plus, Sun } from 'lucide-react'
 import { useTheme } from '@/hooks/use-theme'
 import { Button } from '@/components/ui/button'
+import { PageLoader } from '@/components/PageLoader'
 import { cn } from '@/lib/utils'
 
 export function Logo({ className }: { className?: string }) {
@@ -54,7 +56,10 @@ export function AppShell() {
         </div>
       </header>
       <main>
-        <Outlet />
+        {/* Its own Suspense, so the top bar stays put while the next page loads. */}
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   )

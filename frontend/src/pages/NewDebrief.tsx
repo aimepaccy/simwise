@@ -84,19 +84,24 @@ export function NewDebrief() {
           </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <RecordButton recording={recording} onToggle={() => setRecording(!recording)} />
-            <Surface tilt={4} className="flex flex-col items-center justify-center gap-2 border-dashed p-6 text-center">
-              <Upload className="size-6 text-primary" aria-hidden="true" />
-              <span className="font-medium">Upload a recording</span>
-              <span className="text-xs text-muted-foreground">MP3, M4A, WAV or WebM</span>
+            {/* Surface wraps its children in one inner div, so the column layout goes on our own wrapper. */}
+            <Surface tilt={4} className="flex items-center justify-center border-dashed p-6">
+              <div className="flex flex-col items-center gap-2 text-center">
+                <Upload className="size-6 text-primary" aria-hidden="true" />
+                <span className="font-medium">Upload a recording</span>
+                <span className="text-xs text-muted-foreground">MP3, M4A, WAV or WebM</span>
+              </div>
             </Surface>
           </div>
         </Step>
 
         <Step n={4} title="Slides, documents and sim cards">
-          <Surface tilt={3} className="flex flex-col items-center gap-2 border-dashed p-8 text-center">
-            <FileUp className="size-7 text-coral" aria-hidden="true" />
-            <span className="font-medium">Drop files here</span>
-            <span className="text-xs text-muted-foreground">PowerPoint, PDF, Word, or photos of sim cards. Files are read, then deleted.</span>
+          <Surface tilt={3} className="border-dashed p-8">
+            <div className="flex flex-col items-center gap-2 text-center">
+              <FileUp className="size-7 text-coral" aria-hidden="true" />
+              <span className="font-medium">Drop files here</span>
+              <span className="text-xs text-muted-foreground">PowerPoint, PDF, Word, or photos of sim cards. Files are read, then deleted.</span>
+            </div>
           </Surface>
         </Step>
       </ol>

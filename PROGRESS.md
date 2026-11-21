@@ -29,9 +29,10 @@ Follow one request end to end: the sim team creates a debrief (`POST /api/debrie
 ## Back-end wording
 Adapted on 2026-11-21 (see Status). Still open: the renames listed under "For phase 3", `/api/sessions` accepting only audio and photos (phase 2), and `ncbi.py`'s unused `find_for_answer` and `abstracts` (likely useful for the phase 5 chat).
 
-## Not yet checked
-- Review and new-debrief pages at phone width (layouts are responsive, but no screenshot yet).
-- The front-end bundle is 512 kB (Vite warns above 500 kB); split it by route later if load time matters.
+## Front-end checks (2026-11-21, subagent)
+- Every route checked at phone width (390 px) in light and dark: no sideways scroll anywhere. Fixed: labels running together in the upload boxes on `/new`, and dark-on-dark hero text in dark mode (new `--hero-*` tokens; light mode unchanged).
+- Bundle split by page (lazy loading): main chunk 512 kB to 259 kB; the student page no longer downloads sim team pages.
+- Watch out: `Surface` wraps its children in an inner box, so layout classes (flex, grid) on `<Surface>` do not reach the content. Put them on a wrapper inside it, or change `Surface` to pass them through.
 
 ## Blockers
 None.
