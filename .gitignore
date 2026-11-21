@@ -1,0 +1,51 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+
+# Local database
+*.db
+*.sqlite
+*.sqlite3
+
+# Recordings and uploads stay local
+samples/
+uploads/
+*.webm
+*.m4a
+*.mp3
+*.wav
+*.mp4
+*.ogg
+*.oga
+*.opus
+*.aac
+*.flac
+
+# Documents (often someone else's material)
+*.pptx
+*.ppt
+*.pdf
+*.docx
+
+# Claude Code personal settings (can contain local paths)
+.claude/settings.local.json
+
+# Further reading caches
+backend/cache/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+~$*
+*.log
